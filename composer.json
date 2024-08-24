@@ -1,0 +1,26 @@
+{	
+	"name": "neftaliacosta/projectinit",
+    "type": "php",
+    "description": "Create a professional structure for projects in php using the view controller model.",
+    "keywords": ["php","project","MVC","structure"],
+    "homepage": "https://neftaliacosta.com/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Neftalí Acosta",
+            "email": "neftaliacosta@outlook.com",
+            "homepage": "https://neftaliacosta.com",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-4": { 
+            "App\\": "app/"
+        }
+    },
+    "require": {
+        "josantonius/session": "^1.1",
+        "monolog/monolog": "^2.1",
+        "izniburak/router": "^2.0"
+    }
+}
