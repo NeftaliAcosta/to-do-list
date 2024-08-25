@@ -1,11 +1,6 @@
 <?php 
-//requiere la configuracion del sistema
-require_once "config.php";
 
-//requiere los controladores y librerias del sistema
-require __DIR__.'/app/app_autoloader.php';
-
-//requiere las librerias de composer
+// Load composer
 require __DIR__.'/vendor/autoload.php';
 
 
