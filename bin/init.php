@@ -19,19 +19,13 @@ use App\Core\MySql\MySql;
 use App\Enums\ConsoleBackgroundColors;
 use App\Enums\ConsoleForegroundColors;
 
-/**
- * Load composer
- */
+// Load composer
 require __DIR__.'/../vendor/autoload.php';
 
-/**
- * Load environment to work
- */
+// Load environment to work
 Environment::load();
 
-/**
- * Enable error reporting in dev environment
- */
+// Enable error reporting in dev environment
 if (Environment::isDev()) {
     // Show errors
     error_reporting(-1);
@@ -52,9 +46,7 @@ $oMysql = new MySql();
 $container = new Container();
 
 try {
-    /**
-     * Folder to execute all init files from system migrations
-     */
+    // Folder to execute all init files from system migrations
     $init_path = glob(__DIR__ . '/../inits/*.php');
     natsort($init_path);
 
