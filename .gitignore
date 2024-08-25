@@ -1,0 +1,16 @@
+#Ignore cache from phpstorm
+.idea
+
+#Ignore enviromet file
+.env.dev
+
+#Ignore vendor directory
+/vendor/*
+
+# Ignore composer & cghooks
+cghooks.lock
+composer.lock
+*.lock
+
+#Ignore log
+my_app.log
