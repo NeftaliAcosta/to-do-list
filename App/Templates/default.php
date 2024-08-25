@@ -24,7 +24,7 @@
             <a class="p-2 text-dark" href="#">Pricing</a>
         </nav>
         <a class="btn btn-outline-primary mr-1" href="#">Sign in</a>
-        <a class="btn btn-outline-success ml-1" href="#">Sign up</a>
+        <a class="btn btn-outline-success ml-1" href="<?= __PATH__ .'/signup' ?>">Sign up</a>
     </div>
 
     <div class="container">
