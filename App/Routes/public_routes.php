@@ -1,7 +1,7 @@
 <?php 
 
 $this->route->get('/', function() {
-	include_once __DIR__ . '/../views/pages/home.php';
+	include_once __DIR__ . '/../Views/pages/home.php';
 });
 
 $this->route->error(function() {

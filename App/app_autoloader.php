@@ -1,13 +1,13 @@
 <?php 
 	//Se define la ruta de la carpeta de librerías
-	$base = __DIR__.'/../app/';
+	$base = __DIR__ . '/../App/';
 
 	//Se define los folders a incluir de manera autómática
 	$folders = [
-		'core',
-		'controllers',
-		'middlewares',
-		'libs'
+		'Core',
+		'Controllers',
+		'Middlewares',
+		'Libs'
 	];
 	//Inclusión automática de los ficheros
 	foreach ($folders as $f) {

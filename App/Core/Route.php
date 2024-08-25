@@ -1,37 +1,49 @@
 <?php
+
 namespace  App\Core;
 
 use Buki\Router\Router;
+use Exception;
 
 /**
- * Route 
+ * Route
+ * Load the route controller into the system
  *
- * Controla las rutas de acceso al sistema
- *
- * @author Neftalí Acosta <neftaliacosta@outlook.com>
- * @copyright (c) 2021, NEFTALI ACOSTA
- * @link https://gubynetwork.com
+ * @author Neftalí Marciano Acosta <neftaliacosta@outlook.com>
+ * @copyright (c) 2024, Neftali Marciano Acosta
+ * @link https://www.linkedin.com/in/neftaliacosta
  * @version 1.0
  */
+class Route{
+    /**
+     * Instance of Route controller
+     * @var Router
+     */
+    private Router $route;
 
-class route{
-    private $route;
-    private $meta;
-    private $ext;
-    private $last;
+    /**
+     * @var string|array
+     */
+    private string|array $ext;
+
+    /**
+     * @var string|false
+     */
+    private string|bool $last;
 
 
     public function __construct(){
 
+        // Route controller instance
         $this->route =  new Router([
             'paths' => [
                 'Controllers' => 'App/Controllers',
                 'Middlewares' => 'App/Middlewares',
-                ],
+            ],
             'namespaces' => [
-                    'Controllers' => 'App\Controllers',
-                    'Middlewares' => 'App\Middlewares',
-                ],
+                'Controllers' => 'App\Controllers',
+                'Middlewares' => 'App\Middlewares',
+            ],
         ]);
 
 
@@ -39,36 +51,44 @@ class route{
         $keys = parse_url($url); // parse the url
         $path = explode("/", $keys['path']); // splitting the path
         $last = end($path); // get the value of the last element
-    
+
         $this->ext = pathinfo($last,PATHINFO_EXTENSION);
         $this->last=$last;
 
     }
 
-    public function start(){
+    /**
+     * Initialize the main page by default
+     *
+     * @return void
+     */
+    public function start(): void
+    {
         require_once __DIR__ . '/../Templates/default.php';
     }
 
-    public function pages(){
-
-
-        //Se requieren todas las rutas automáticamente
+    /**
+     * Load all required paths
+     *
+     * @throws Exception
+     */
+    public function pages(): void
+    {
+        // Set home directory
         $base = __DIR__.'/../';
 
-        //Se define el folder a incluir
+        // Define the folders to include
         $folders = [
             'Routes'
         ];
-        //Inclusión automática de los ficheros
+
+        // Iterate through the folders and include the corresponding files
         foreach ($folders as $f) {
-            foreach (glob($base . "$f/*.php") as $k => $archivo) {
-                require_once $archivo;
+            foreach (glob($base . "$f/*.php") as $k => $file) {
+                require_once $file;
             }
         }
         $this->route->run();
     }
 
 }
-
-
-?>

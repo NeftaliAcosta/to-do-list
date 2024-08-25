@@ -31,7 +31,7 @@
 
     <div class="container">
         <?php
-            // Load routes
+            // Load Routes
             self::pages();
         ?>
     </div>
