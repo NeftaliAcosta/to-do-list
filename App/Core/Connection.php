@@ -91,7 +91,7 @@ class Connection
                 self::$instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 self::$instance->exec('SET NAMES "utf8"');
             } catch (PDOException) {
-                throw  new coreException("Error connecting to database server");
+                throw  new CoreException("Error connecting to database server");
             }
         }
 
