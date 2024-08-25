@@ -271,6 +271,19 @@ class MySql
     }
 
     /**
+     * Set a field of type float to a query of type UPDATE
+     *
+     * @param string $field
+     * @param float $value
+     * @return $this
+     */
+    public function updateFloat(string $field, float $value): MySql
+    {
+        $this->update_parameters .= "`$field` = $value, ";
+        return $this;
+    }
+
+    /**
      * Set a custom query
      *
      * @param string $mysql_query

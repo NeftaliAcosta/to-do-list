@@ -6,7 +6,7 @@ use App\Core\Container\Exception\TableNotFoundException;
 use App\Core\coreException;
 
 /**
- * container
+ * Container
  * Saves the relationship between the original database and the model alias
  *
  * @author Neftalí Marciano Acosta <neftaliacosta@outlook.com>
@@ -22,7 +22,7 @@ class Container{
      * @var array $tables
      */
     public static array $tables = array(
-        'entity' => 'alias_table',
+        'users' => 'entity_users',
 
     );
 
@@ -40,7 +40,7 @@ class Container{
             }else{
                 throw new TableNotFoundException('The alias table does not exist.');
             }
-        } catch (coreException $e) {
+        } catch (CoreException $e) {
             echo $e->errorMessage();
         }
     }

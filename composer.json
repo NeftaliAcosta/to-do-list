@@ -22,5 +22,9 @@
         "monolog/monolog": "^2.1",
         "izniburak/router": "^2.0",
 		"vlucas/phpdotenv": "^5.6"
+    },
+    "scripts": {
+        "bin-init": "php ./bin/init.php -e dev",
+        "bin-recovery": "php ./bin/recovery.php -e dev -d display_errors=on"
     }
 }
