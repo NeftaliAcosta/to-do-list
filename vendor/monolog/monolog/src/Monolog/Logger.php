@@ -328,9 +328,9 @@ class Logger implements LoggerInterface, ResettableInterface
     }
 
     /**
-     * Ends a log cycle and frees all resources used by handlers.
+     * Ends a log cycle and frees all src used by handlers.
      *
-     * Closing a Handler means flushing all buffers and freeing any open resources/handles.
+     * Closing a Handler means flushing all buffers and freeing any open src/handles.
      * Handlers that have been closed should be able to accept log records again and re-open
      * themselves on demand, but this may not always be possible depending on implementation.
      *

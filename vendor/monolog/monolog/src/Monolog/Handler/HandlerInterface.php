@@ -59,9 +59,9 @@ interface HandlerInterface
     /**
      * Closes the handler.
      *
-     * Ends a log cycle and frees all resources used by the handler.
+     * Ends a log cycle and frees all src used by the handler.
      *
-     * Closing a Handler means flushing all buffers and freeing any open resources/handles.
+     * Closing a Handler means flushing all buffers and freeing any open src/handles.
      *
      * Implementations have to be idempotent (i.e. it should be possible to call close several times without breakage)
      * and ideally handlers should be able to reopen themselves on handle() after they have been closed.

@@ -4,7 +4,7 @@
 	    session_start();
 	}
 	/**
-	 * Se requeire la configuración del sistema
+	 * Load settings
 	 */
 	require_once "config.php";
 
