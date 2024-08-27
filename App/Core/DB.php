@@ -42,7 +42,7 @@ class DB
      *
      * @return array|bool
      */
-    public static function getVersion(): array|bool
+    public static function  getVersion(): array|bool
     {
         $oMySql = new MySql();
         $data = $oMySql->custom("SELECT version, modified_at FROM versions");

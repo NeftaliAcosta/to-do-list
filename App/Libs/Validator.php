@@ -167,7 +167,7 @@ class Validator
      * @param int $min
      * @return Validator this
      */
-    public function minLength(int $min): Validator
+    public function lengthMin(int $min): Validator
     {
         if (strlen($this->value) < $min) {
             $this->errors[] = "Field value {$this->name} is less than minimum.";
@@ -182,12 +182,33 @@ class Validator
      * @param int $max
      * @return Validator $this
      */
-    public function maxLength(int $max): Validator
+    public function lengthMax(int $max): Validator
     {
         if(strlen($this->value) > $max){
             $this->errors[] = "Field value {$this->name} is greater than minimum";
         }
 
+        return $this;
+    }
+
+    /**
+     * Validate a password with minimum eight characters, at least one letter and one number:
+     *
+     * @return Validator
+     */
+    public function isPassword(): Validator
+    {
+        if ($this->value != null) {
+            if (
+                !filter_var(
+                    $this->value,
+                    FILTER_VALIDATE_REGEXP,
+                    ['options' => ['regexp' => "/^(?=.*[A-Za-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/"]]
+                )
+            ) {
+                $this->errors[] = "Field value {$this->name} is not a valid password";
+            }
+        }
         return $this;
     }
 
@@ -383,15 +404,47 @@ class Validator
     }
 
     /**
+     * Check if the value is pure letters of the alphabet
+     *
+     * @return Validator
+     */
+    public function isAlpha(): Validator
+    {
+        if ($this->value != null) {
+            if (!filter_var($this->value, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => "/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/"]])) {
+                $this->errors[] = "The field {$this->name} has no valid value.";
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Check if the value is an email
+     *
+     * @return Validator
+     */
+    public function isEmail(): Validator
+    {
+        if ($this->value != null) {
+            if (!filter_var($this->value, FILTER_VALIDATE_EMAIL)) {
+                $this->errors[] = "The field {$this->name} has no valid email.";
+            }
+        }
+
+        return $this;
+    }
+
+    /**
      * Verify that the fields are validated correctly
      *
      * @return boolean
      */
     public function isSuccess(): bool
     {
-        if(empty($this->errors)){
+        if (empty($this->errors)) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }

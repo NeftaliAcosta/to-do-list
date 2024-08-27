@@ -4,7 +4,7 @@ $this->route->get('/', function() {
 	include_once __DIR__ . '/../Views/pages/home.php';
 });
 
-$this->route->get('/signup', function() {
+$this->route->add('GET|POST', '/signup', function() {
 	include_once __DIR__ . '/../Views/pages/signup.php';
 });
 

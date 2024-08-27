@@ -14,6 +14,7 @@ use App\Core\MySql\Exception\IncorrectUpdateStructureException;
 use App\Core\MySql\Exception\IncorrectWhereStructureException;
 use App\Core\MySql\Exception\QueryMethodNotSelectedException;
 use App\Core\MySql\Exception\QueryTableNotSelectedException;
+use PDO;
 
 /**
  * MySql
@@ -96,7 +97,7 @@ class MySql
      * Instance of PDO Class
      * @var object
      */
-    private object $o_pdo;
+    private object $oPDO;
 
     /**
      * Sort query results
@@ -149,7 +150,7 @@ class MySql
         );
 
         // Instance of PDO controller
-        $this->o_pdo = $pdo_temp->connect();
+        $this->oPDO = $pdo_temp->connect();
 
         // Use our database
         $this->custom("USE " . $_ENV['DB_NAME'])->execute();
@@ -480,32 +481,43 @@ class MySql
     /**
      * Execute the query using the PDO controller
      *
+     * @param bool $fetchType
+     * @param bool $returnLastId
+     * @param bool $countTotalRows
      * @return array|null
      */
-    public function execute(): ?array
+    public function execute(bool $fetchType = false, bool $returnLastId = false, bool $countTotalRows = false): ?array
     {
         $this->prepare();
         $response = [];
         try {
-            if($this->query !=='' || $this->custom_query !== ''){
-                $stmt = $this->o_pdo->prepare($this->query);
+            if ($this->query !=='' || $this->custom_query !== '') {
+                $stmt = $this->oPDO->prepare($this->query);
                 $stmt->execute();
 
                 $response['resp'] = true;
 
-                if($this->query_type=='SELECT' || $this->query_type=="CUSTOM"){
+                if ($this->query_type=='SELECT' || $this->query_type=="CUSTOM") {
 
-                    if($this->fetch){
+                    if ($this->fetch) {
                         $response['data'] = $stmt->fetch();
-                    }else{
-                        $response['data'] = $stmt->fetchAll();
+                    } else{
+                        $response['data'] = $this->$fetchType ? $stmt->fetchAll(PDO::FETCH_CLASS) : $stmt->fetchAll();
                     }
 
-                }else if($this->query_type=='UPDATE' || $this->query_type=="DELETE"){
+                    if ($countTotalRows) {
+                        $response['totalRows'] = $stmt->rowCount();
+                    }
+
+                    if ($returnLastId) {
+                        $response['lastInsert'] = (int) $this->oPDO->lastInsertId();
+                    }
+
+                } else if($this->query_type=='UPDATE' || $this->query_type=="DELETE") {
                     $response['rowCount'] = $stmt->rowCount();
                 }
 
-            }else{
+            } else {
                 throw new QueryMethodNotSelectedException(
                     'The type of query to perform has not been specified.'
                 );
