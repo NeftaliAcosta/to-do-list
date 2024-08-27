@@ -23,7 +23,6 @@ class Container{
      */
     public static array $tables = array(
         'users' => 'entity_users',
-
     );
 
     /**

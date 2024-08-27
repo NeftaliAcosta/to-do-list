@@ -88,7 +88,7 @@ try {
     }
     Cli::e(
         "++++++++++ Database is up to date :) ++++++++++",
-        ConsoleForegroundColors::Magenta,
+        ConsoleForegroundColors::Black,
         ConsoleBackgroundColors::Yellow
     );
 } catch (CoreException $e) {

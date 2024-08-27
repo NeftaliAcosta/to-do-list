@@ -13,9 +13,7 @@ define('__PATH__', 'http://'.$_SERVER['SERVER_NAME']);
 // Set default timezone
 date_default_timezone_set('America/Mexico_City');
 
-/**
- * Load composer
- */
+// Load composer
 require __DIR__.'/../vendor/autoload.php';
 
 use App\Core\Environment;
