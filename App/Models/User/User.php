@@ -6,8 +6,8 @@ use App\Core\Container\Container;
 use App\Core\CoreException;
 use App\Core\MySql\MySql;
 use App\Libs\Tools;
-use Exception\UserCannotBeCreatedException;
-use Exception\UserNotFoundException;
+use App\Models\User\Exception\UserCannotBeCreatedException;
+use App\Models\User\Exception\UserNotFoundException;
 
 /**
  * User
@@ -210,6 +210,38 @@ class User
     {
         $this->status = $status;
         return $this;
+    }
+
+    /**
+     * Find id user by email
+     *
+     * @param string $email
+     * @return User
+     * @throws CoreException
+     * @throws UserNotFoundException
+     */
+    public function findByEmail(string $email): User
+    {
+        // Object to access database
+        $oMySql = new MySql();
+
+        $where = [
+            'email = ?' => [
+                'type' => 'string',
+                'value' => $email
+            ],
+        ];
+
+        // Query in data base
+        $response = $oMySql->select('id')->from($this->aliasTable)->where($where)->execute();
+
+        // Get id and return an object instance
+        if (!empty($response['data'])) {
+            $userData = $response['data'];
+            return new User($userData['id']);
+        } else {
+            throw new UserNotFoundException('User not found.');
+        }
     }
 
     /**

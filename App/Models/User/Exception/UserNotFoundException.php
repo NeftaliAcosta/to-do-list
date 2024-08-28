@@ -1,6 +1,6 @@
 <?php
 
-namespace Exception;
+namespace App\Models\User\Exception;
 
 use App\Core\CoreException;
 
