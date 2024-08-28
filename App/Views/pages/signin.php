@@ -52,6 +52,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script>
         setTimeout(function() {
             window.location.href = '/dashboard';
-        }, 2000);
+        }, 1000);
     </script>
 <?php endif; ?>

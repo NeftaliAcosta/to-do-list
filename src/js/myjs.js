@@ -28,5 +28,8 @@ $(document).ready(function(){
 	img.onerror = function() {
 		console.error('Failed to load image:', imageUrl);
 	};
+
+	// Init datatable
+	new DataTable('#tasks');
 });
 

@@ -15,6 +15,10 @@ $this->route->add('GET|POST', '/signin', function() {
     include_once __DIR__ . '/../Views/pages/signin.php';
 });
 
+$this->route->get('/dashboard', function() {
+    include_once __DIR__ . '/../Views/pages/dashboard.php';
+});
+
 $this->route->error(function(Request $request, Response $response, Exception $exception) {
     echo $exception->getMessage();
 });
