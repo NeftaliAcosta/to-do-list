@@ -47,3 +47,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
 </div>
+
+<?php if ($messageSuccess): ?>
+    <script>
+        setTimeout(function() {
+            window.location.href = '/dashboard';
+        }, 2000);
+    </script>
+<?php endif; ?>
