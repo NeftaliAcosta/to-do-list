@@ -3,7 +3,7 @@
 namespace App\Libs;
 
 use App\Core\CoreException;
-use Exception;
+use App\Models\User\Exception;
 
 /**
  * Tools

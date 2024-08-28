@@ -3,7 +3,7 @@
 namespace  App\Core;
 
 use Buki\Router\Router;
-use Exception;
+use App\Models\User\Exception;
 
 /**
  * Route
