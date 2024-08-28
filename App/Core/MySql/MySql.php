@@ -4,7 +4,7 @@ namespace App\Core\MySql;
 
 use App\Core\Connection;
 use App\Core\Container\Container;
-use App\Core\coreException;
+use App\Core\CoreException;
 use App\Core\MySql\Exception\IncorrectCustomStructureException;
 use App\Core\MySql\Exception\IncorrectDataStructureException;
 use App\Core\MySql\Exception\IncorrectDeleteStructureException;
@@ -486,7 +486,7 @@ class MySql
      * @param bool $countTotalRows
      * @return array|null
      */
-    public function execute(bool $fetchType = false, bool $returnLastId = false, bool $countTotalRows = false): ?array
+    public function execute(bool $returnLastId = false, bool $countTotalRows = false): ?array
     {
         $this->prepare();
         $response = [];
@@ -502,7 +502,7 @@ class MySql
                     if ($this->fetch) {
                         $response['data'] = $stmt->fetch();
                     } else{
-                        $response['data'] = $this->$fetchType ? $stmt->fetchAll(PDO::FETCH_CLASS) : $stmt->fetchAll();
+                        $response['data'] = $this->fetch_all ? $stmt->fetchAll(PDO::FETCH_CLASS) : $stmt->fetchAll();
                     }
 
                     if ($countTotalRows) {

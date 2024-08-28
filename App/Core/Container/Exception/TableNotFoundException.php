@@ -4,6 +4,6 @@ namespace App\Core\Container\Exception;
 
 use App\Core\coreException;
 
-class TableNotFoundException extends coreException
+class TableNotFoundException extends CoreException
 {
 }

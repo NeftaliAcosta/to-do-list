@@ -3,7 +3,7 @@
 namespace App\Core\Container;
 
 use App\Core\Container\Exception\TableNotFoundException;
-use App\Core\coreException;
+use App\Core\CoreException;
 
 /**
  * Container

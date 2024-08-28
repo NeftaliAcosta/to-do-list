@@ -76,7 +76,7 @@ class Connection
      * Connect to our Database (Default to MySQL server)
      *
      * @return PDO|null
-     * @throws coreException
+     * @throws CoreException
      */
     public function connect(): PDO|null
     {
