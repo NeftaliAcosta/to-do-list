@@ -17,7 +17,6 @@ if (!$oSession->validateLogin()) {
     logOut();
 }
 
-
 $oDashboard = new Dashboard();
 try {
     $dashboardData = $oDashboard->getDashboardInformation();

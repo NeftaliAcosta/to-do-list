@@ -1,3 +1,15 @@
+<?php
+
+use App\Core\SystemSession;
+
+$oSession = new SystemSession();
+$login = false;
+
+if ($oSession->validateLogin()) {
+    $login = true;
+}
+?>
+
 <!doctype html>
     <html lang="en">
     <head>
@@ -19,13 +31,20 @@
         <img src="<?= __PATH__.'/src/img/logo.png' ?>" alt="Logo" width="90px" class="my-0 mr-md-auto">
         <nav class="my-2 my-md-0 mr-md-3">
             <a class="p-2 text-dark" href="<?= __PATH__ ?>">Home</a>
+            <?php if ( $login ): ?>
+                <a class="p-2 text-dark" href="/dashboard">Dashboard</a>
+            <?php endif; ?>
             <a class="p-2 text-dark" href="#">Features</a>
             <a class="p-2 text-dark" href="#">Enterprise</a>
             <a class="p-2 text-dark" href="#">Support</a>
             <a class="p-2 text-dark" href="#">Pricing</a>
         </nav>
-        <a class="btn btn-outline-primary mr-1" href="<?= __PATH__ .'/signin' ?>">Sign in</a>
-        <a class="btn btn-outline-success ml-1" href="<?= __PATH__ .'/signup' ?>">Sign up</a>
+        <?php if ( $login ): ?>
+            <a class="btn btn-outline-danger mr-1" href="<?= __PATH__ .'/signout' ?>">Sign out</a>
+        <?php else: ?>
+            <a class="btn btn-outline-primary mr-1" href="<?= __PATH__ .'/signin' ?>">Sign in</a>
+            <a class="btn btn-outline-success ml-1" href="<?= __PATH__ .'/signup' ?>">Sign up</a>
+        <?php endif; ?>
     </div>
 
     <div class="container">
