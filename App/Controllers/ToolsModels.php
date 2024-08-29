@@ -2,9 +2,19 @@
 
 namespace App\Controllers;
 
-use App\Core\CoreException;
 use App\Core\MySql\MySql;
 
+
+/**
+ * ToolsModels
+ * Magic methods for models
+ *
+ * @author Neftalí Marciano Acosta <neftaliacosta@outlook.com>
+ * @copyright (c) 2024, Neftali Marciano Acosta
+ * @link https://www.linkedin.com/in/neftaliacosta
+ * @version 1.0
+ *
+ */
 class ToolsModels
 {
     private string $aliasTable;
