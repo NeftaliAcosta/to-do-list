@@ -19,13 +19,27 @@ if (!$oSession->validateLogin()) {
     logOut();
 }
 
-// Getting information about it
+// Getting information about it and validate if it exists
 $oTask = new Task();
 $response =  $oTask->taskView($uuid);
 if ($response['showError']) {
     header('Location: /dashboard');
 }
 $task = $response['task'];
+
+
+// Validating method POST
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $oTask = new Task();
+    $response =  $oTask->taskEdit($uuid, $_POST);
+    $showError = $response['showError'];
+    $messageError = $response['messageError'];
+
+    if (!$showError) {
+        $messageSuccess = true;
+    }
+}
+
 ?>
     <div class="container mt-5">
         <div class="row justify-content-center">
@@ -33,12 +47,12 @@ $task = $response['task'];
                 <a href="dashboard/task/delete"><button type="button" class="btn btn-primary float-right mb-2">Delete</button></a>
                 <h2 class="text-center mb-4">View task</h2>
                 <div class="alert alert-danger mt-5 <?php echo $showError ? '' : 'd-none'; ?>" role="alert">
-                    Unable to create user, please validate the following.
+                    Unable to edit task, please validate the following.
                     <?php echo $messageError; ?>
                 </div>
 
                 <div class="alert alert-success <?php echo $messageSuccess ? '' : 'd-none'; ?>" role="alert">
-                    Task created successfully.
+                    Task updated.
                 </div>
 
                 <form method="POST" action="<?php echo $_SERVER['REQUEST_URI'];?>">

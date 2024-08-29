@@ -27,7 +27,7 @@ $this->route->get('/dashboard/task/view/:any', function($uuid) {
     include_once __DIR__ . '/../Views/pages/task-view.php';
 });
 
-$this->route->get('/dashboard/task/edit/:any', function($uuid) {
+$this->route->add('GET|POST', '/dashboard/task/edit/:any', function($uuid) {
     include_once __DIR__ . '/../Views/pages/task-edit.php';
 });
 

@@ -8,8 +8,10 @@ use App\Core\CoreException;
 use App\Core\MySql\MySql;
 use App\Libs\Tools;
 use App\Models\Task\Exception\TaskCannotBeCreatedException;
+use App\Models\Task\Exception\TaskCannotBeUpdatedException;
 use App\Models\Task\Exception\TaskNotFoundException;
 use App\Models\User\User;
+use Exception;
 
 /**
  * Task
@@ -252,5 +254,42 @@ class Task extends ToolsModels
         }
 
         return new Task($response['lastInsert']);
+    }
+
+    /**
+     * Update record in database
+     *
+     * @throws TaskCannotBeUpdatedException
+     */
+    public function update(Task $task): Task {
+        if (
+            $task->title != null &
+            $task->description != null &
+            $task->status != null &&
+            $task->user_id != null
+        ) {
+            // Instance of Sql class
+            $oMySql = new MySql();
+
+            // $where Variable for where clause in the query
+            $where = [
+                'id = ?' => [
+                    'type' => 'int',
+                    'value' => $task->getId(),
+                ]
+            ];
+
+            try {
+                $oMySql->update()->updateString('title', $task->title)->from($this->aliasTable)->where($where)->execute();
+                $oMySql->update()->updateString('description', $task->description)->from($this->aliasTable)->where($where)->execute();
+                $oMySql->update()->updateInt('status', $task->status)->from($this->aliasTable)->where($where)->execute();
+            }catch ( Exception $e){
+                throw new TaskCannotBeUpdatedException('Task cannot be updated.');
+            }
+        } else {
+            throw new TaskCannotBeUpdatedException('Task cannot be updated.');
+        }
+
+        return $task;
     }
 }

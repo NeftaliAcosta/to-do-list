@@ -178,6 +178,8 @@ class MySql
     public function update(): MySql
     {
         $this->query_type = 'UPDATE';
+        $this->fields_to_update = '';
+        $this->query_condition = '';
 
         return $this;
     }
@@ -253,7 +255,7 @@ class MySql
      */
     public function updateInt(string $campo, int $value): MySQL
     {
-        $this->fields_to_update .= "{$campo} = {$value}, ";
+        $this->fields_to_update .= "`{$campo}` = {$value}, ";
 
         return $this;
     }
@@ -267,7 +269,7 @@ class MySql
      */
     public function updateString(string $campo, string $value): MySql
     {
-        $this->fields_to_update .= "{$campo} = '{$value}', ";
+        $this->fields_to_update .= "`{$campo}` = '{$value}', ";
         return $this;
     }
 
@@ -335,7 +337,7 @@ class MySql
                 }
 
                 // Query construction
-                if($value['type']=="numeric"){
+                if($value['type']=="int"){
                     $this->query_condition .= str_replace('?', $value['value'], $clave);
                 }else{
                     if(strpos($clave, '%')>0){
@@ -481,7 +483,6 @@ class MySql
     /**
      * Execute the query using the PDO controller
      *
-     * @param bool $fetchType
      * @param bool $returnLastId
      * @param bool $countTotalRows
      * @return array|null
