@@ -266,7 +266,7 @@ class Validator
      *
      * @return Validator
      */
-    public function is_int(): Validator
+    public function isInt(): Validator
     {
         if($this->value != null && !filter_var($this->value, FILTER_VALIDATE_INT)){
             $this->errors[] = "The field {$this->name} has no valid characters.";
@@ -378,21 +378,6 @@ class Validator
         return $this;
     }
 
-    /**
-     * Check if the value is an email
-     *
-     * @param string $value
-     * @return Validator
-     */
-    public function is_email(string $value): Validator
-    {
-        if(!filter_var($value, FILTER_VALIDATE_EMAIL)){
-            $this->errors[] = "The field {$this->name} has no valid value.";
-        }
-
-        return $this;
-    }
-
     public function inArray(array $enum_array): Validator
     {
         $a_values = array_values($enum_array);
@@ -412,6 +397,17 @@ class Validator
     {
         if ($this->value != null) {
             if (!filter_var($this->value, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => "/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/"]])) {
+                $this->errors[] = "The field {$this->name} has no valid value.";
+            }
+        }
+
+        return $this;
+    }
+
+    public function isAlphaNumeric(): Validator
+    {
+        if ($this->value != null) {
+            if (!filter_var($this->value, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => "/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s0-9]+$/"]])) {
                 $this->errors[] = "The field {$this->name} has no valid value.";
             }
         }

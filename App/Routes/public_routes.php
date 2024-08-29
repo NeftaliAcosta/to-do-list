@@ -19,6 +19,10 @@ $this->route->get('/dashboard', function() {
     include_once __DIR__ . '/../Views/pages/dashboard.php';
 });
 
+$this->route->add('GET|POST', '/dashboard/task/create', function() {
+    include_once __DIR__ . '/../Views/pages/task-create.php';
+});
+
 $this->route->error(function(Request $request, Response $response, Exception $exception) {
     echo $exception->getMessage();
 });

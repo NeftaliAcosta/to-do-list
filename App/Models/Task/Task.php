@@ -2,8 +2,13 @@
 
 namespace App\Models\Task;
 
+use App\Core\Container\Container;
+use App\Core\CoreException;
 use App\Core\MySql\MySql;
+use App\Libs\Tools;
+use App\Models\Task\Exception\TaskCannotBeCreatedException;
 use App\Models\Task\Exception\TaskNotFoundException;
+use App\Models\User\Exception\UserCannotBeCreatedException;
 use App\Models\User\User;
 
 /**
@@ -196,5 +201,54 @@ class Task
         return $response['data'];
     }
 
+    /**
+     * Create a new record in database
+     *
+     * @param Task $task
+     * @return Task
+     * @throws TaskCannotBeCreatedException
+     * @throws TaskNotFoundException
+     */
+    public function create(Task $task): Task
+    {
+        if (
+            $task->title != null &
+            $task->description != null &
+            $task->status != null &&
+            $task->user_id != null
+        ) {
+            // Instance of Sql class
+            $oMySql = new MySql();
 
+            try {
+                $response = $oMySql->custom("
+                INSERT INTO
+                    `" . Container::getTable($this->aliasTable) . "`
+                (
+                    `uuid`,
+                    `title`,
+                    `description`,
+                    `status`,
+                    `creationDate`,
+                    `user_id`
+                )
+                VALUES
+                (
+                    '" . Tools::scStr(Tools::getUUID()) . "',
+                    '" . Tools::scStr($task->title) . "',
+                    '" . Tools::scStr($task->description) . "',
+                    " . Tools::scInt($task->status) . ",
+                    '" . Tools::scStr(Tools::date()) . "',
+                    " . Tools::scInt($task->user_id). "
+                );
+            ")->execute(returnLastId: true);
+            } catch (CoreException) {
+                throw new TaskCannotBeCreatedException('Task cannot be created.');
+            }
+        } else {
+            throw new TaskCannotBeCreatedException('Task cannot be created');
+        }
+
+        return new Task($response['lastInsert']);
+    }
 }

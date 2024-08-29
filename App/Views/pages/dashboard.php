@@ -33,6 +33,7 @@ try {
             <p class="text-center">User since <?= $dashboardData['registrationDate'] ?></p>
 
             <h5 class="">My <b>To Do List</b></h5>
+            <a href="dashboard/task/create"><button type="button" class="btn btn-primary float-right mb-2">New task</button></a>
             <table class="table table-striped" id="tasks">
                 <thead class="thead-dark">
                 <tr>
