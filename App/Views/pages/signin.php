@@ -2,10 +2,14 @@
 
 // Init local variables
 use App\Controllers\User;
+use App\Core\SystemSession;
 
 $showError = false;
 $messageError = '';
 $messageSuccess = false;
+
+$oSession = new SystemSession();
+$oSession->destroy();
 
 // Validating method POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
