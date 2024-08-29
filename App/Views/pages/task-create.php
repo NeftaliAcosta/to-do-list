@@ -51,15 +51,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 <div class="form-group">
                     <label for="description">Description *</label>
-                    <input type="text" class="form-control" id="description" name="description" placeholder="Description" <?= $_POST['description'] ?? '' ?> required>
+                    <input type="text" class="form-control" id="description" name="description" placeholder="Description" value="<?= $_POST['description'] ?? '' ?>" required>
                 </div>
                 <div class="form-group">
                     <label for="status">Status *</label>
                     <select class="custom-select custom-select-lg mb-3" id="status" name="status" required>
                         <option selected value="">Select a option</option>
-                        <option value="1">Create</option>
-                        <option value="2">In progress</option>
-                        <option value="3">Success</option>
+                        <option value="1" <?= (isset($_POST['status']) && $_POST['status'] == 1) ? 'selected' : ''; ?>>Create</option>
+                        <option value="2" <?= (isset($_POST['status']) && $_POST['status'] == 2) ? 'selected' : ''; ?>>In progress</option>
+                        <option value="3" <?= (isset($_POST['status']) && $_POST['status'] == 3) ? 'selected' : ''; ?>>Success</option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">Create</button>
