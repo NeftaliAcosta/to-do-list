@@ -28,8 +28,8 @@ $oMysql->custom("
         `password` varchar(200) COLLATE utf8mb4_general_ci NOT NULL,
         `registrationDate` datetime NOT NULL,
         `lastLoginDate` datetime DEFAULT NULL,
-        `verified` tinyint NOT NULL DEFAULT 0,
-        `status` tinyint NOT NULL DEFAULT 0,
+        `verified` tinyint NOT NULL DEFAULT 1,
+        `status` tinyint NOT NULL DEFAULT 1,
         PRIMARY KEY (`id`),
         UNIQUE (`email`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
