@@ -2,13 +2,13 @@
 
 namespace App\Models\Task;
 
+use App\Controllers\ToolsModels;
 use App\Core\Container\Container;
 use App\Core\CoreException;
 use App\Core\MySql\MySql;
 use App\Libs\Tools;
 use App\Models\Task\Exception\TaskCannotBeCreatedException;
 use App\Models\Task\Exception\TaskNotFoundException;
-use App\Models\User\Exception\UserCannotBeCreatedException;
 use App\Models\User\User;
 
 /**
@@ -20,7 +20,7 @@ use App\Models\User\User;
  * @link https://www.linkedin.com/in/neftaliacosta
  * @version 1.0
  */
-class Task
+class Task extends ToolsModels
 {
     private int $id;
     private string $uuid;
@@ -35,6 +35,8 @@ class Task
      * @throws TaskNotFoundException
      */
     public function __construct(int $id = null) {
+        parent::__construct($this->aliasTable);
+
         if ($id != null) {
             // Instance of Sql class
             $oMySql = new MySql();

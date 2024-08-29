@@ -6,6 +6,7 @@ use App\Core\CoreException;
 use App\Core\SystemSession;
 use App\Libs\Validator;
 use App\Models\Task\Exception\TaskCannotBeCreatedException;
+use App\Models\Task\Exception\TaskNotFoundException;
 
 class Task
 {
@@ -49,6 +50,40 @@ class Task
             $response['messageError'] = "<ul>{$oValidator->getErrorsHTML()}</ul>";
         }
 
+
+        return $response;
+    }
+
+    /**
+     * It is used to show task in the front end
+     *
+     * @param string $uuid
+     * @return array
+     */
+    public function taskView(string $uuid): array
+    {
+        $oValidator = new Validator();
+        $response['showError'] = false;
+        $response['messageError'] = '';
+
+        // Validating input data
+        $oValidator->name('uuid')->value($uuid)->isUuidValid()->required();
+
+        // Processing information or showing errors messages
+        if ($oValidator->isSuccess()) {
+            try {
+                $oTask = new \App\Models\Task\Task();
+                $taskId = $oTask->getIdFromUuid($uuid);
+                $oTask = new \App\Models\Task\Task($taskId);
+                $response['task'] = $oTask;
+            } catch (TaskNotFoundException $e) {
+                $response['showError'] = true;
+                $response['messageError'] = $e->getMessage();
+            }
+        } else {
+            $response['showError'] = true;
+            $response['messageError'] = "<ul>{$oValidator->getErrorsHTML()}</ul>";
+        }
 
         return $response;
     }

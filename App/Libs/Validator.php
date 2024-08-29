@@ -432,6 +432,24 @@ class Validator
     }
 
     /**
+     * Check if the value is a uuid string valid
+     *
+     * @return Validator
+     */
+    public function isUuidValid(): Validator
+    {
+        if ($this->value != null) {
+            $pattern = '/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i';
+
+            if (preg_match($pattern, $this->value) !== 1) {
+                $this->errors[] = "The field {$this->name} has no valid uuid.";
+            }
+        }
+
+        return $this;
+    }
+
+    /**
      * Verify that the fields are validated correctly
      *
      * @return boolean

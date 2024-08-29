@@ -13,6 +13,7 @@ use JetBrains\PhpStorm\NoReturn;
 
 $oSession = new SystemSession();
 $dashboardData = [];
+$badgeText = "";
 if (!$oSession->validateLogin()) {
     logOut();
 }
@@ -68,9 +69,9 @@ try {
                         </td>
                         <td>
                             <div class="btn-group" role="group" aria-label="Actions">
-                                <button type="button" class="btn btn-primary mr-1">View</button>
-                                <button type="button" class="btn btn-secondary mr-1 ml-1">Edit</button>
-                                <button type="button" class="btn btn-danger ml-1">Delete</button>
+                                <a href="/dashboard/task/view/<?= $task->uuid ?>"><button type="button" class="btn btn-primary mr-1">View</button></a>
+                                <a href="/dashboard/task/edit/<?= $task->uuid ?>"><button type="button" class="btn btn-secondary mr-1 ml-1">Edit</button></a>
+                                <a href="/dashboard/task/delete/<?= $task->uuid ?>"><button type="button" class="btn btn-danger ml-1">Delete</button></a>
                             </div>
                         </td>
                     </tr>
