@@ -40,10 +40,12 @@ class SystemSession{
     public function __construct()
     {
         $this->session = new Session();
-        $this->session->start([
-            'cache_expire' => 180,
-            'name' => $this->prefix
-        ]);
+        if (session_status() === PHP_SESSION_NONE) {
+            $this->session->start([
+                'cache_expire' => 180,
+                'name' => $this->prefix
+            ]);
+        }
 
     }
 
@@ -122,6 +124,14 @@ class SystemSession{
         $this->session->destroy();
 
         return $this;
+    }
+
+    public function validateLogin(): bool
+    {
+        if ($this->session->get('login' ) === NULL) {
+            return false;
+        }
+        return true;
     }
 
 }

@@ -4,7 +4,7 @@ namespace App\Core\MySql;
 
 use App\Core\Connection;
 use App\Core\Container\Container;
-use App\Core\coreException;
+use App\Core\CoreException;
 use App\Core\MySql\Exception\IncorrectCustomStructureException;
 use App\Core\MySql\Exception\IncorrectDataStructureException;
 use App\Core\MySql\Exception\IncorrectDeleteStructureException;
@@ -178,6 +178,8 @@ class MySql
     public function update(): MySql
     {
         $this->query_type = 'UPDATE';
+        $this->fields_to_update = '';
+        $this->query_condition = '';
 
         return $this;
     }
@@ -253,7 +255,7 @@ class MySql
      */
     public function updateInt(string $campo, int $value): MySQL
     {
-        $this->fields_to_update .= "{$campo} = {$value}, ";
+        $this->fields_to_update .= "`{$campo}` = {$value}, ";
 
         return $this;
     }
@@ -267,7 +269,7 @@ class MySql
      */
     public function updateString(string $campo, string $value): MySql
     {
-        $this->fields_to_update .= "{$campo} = '{$value}', ";
+        $this->fields_to_update .= "`{$campo}` = '{$value}', ";
         return $this;
     }
 
@@ -335,7 +337,7 @@ class MySql
                 }
 
                 // Query construction
-                if($value['type']=="numeric"){
+                if($value['type']=="int"){
                     $this->query_condition .= str_replace('?', $value['value'], $clave);
                 }else{
                     if(strpos($clave, '%')>0){
@@ -481,12 +483,11 @@ class MySql
     /**
      * Execute the query using the PDO controller
      *
-     * @param bool $fetchType
      * @param bool $returnLastId
      * @param bool $countTotalRows
      * @return array|null
      */
-    public function execute(bool $fetchType = false, bool $returnLastId = false, bool $countTotalRows = false): ?array
+    public function execute(bool $returnLastId = false, bool $countTotalRows = false): ?array
     {
         $this->prepare();
         $response = [];
@@ -502,7 +503,7 @@ class MySql
                     if ($this->fetch) {
                         $response['data'] = $stmt->fetch();
                     } else{
-                        $response['data'] = $this->$fetchType ? $stmt->fetchAll(PDO::FETCH_CLASS) : $stmt->fetchAll();
+                        $response['data'] = $this->fetch_all ? $stmt->fetchAll(PDO::FETCH_CLASS) : $stmt->fetchAll();
                     }
 
                     if ($countTotalRows) {

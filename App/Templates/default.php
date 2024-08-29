@@ -1,3 +1,15 @@
+<?php
+
+use App\Core\SystemSession;
+
+$oSession = new SystemSession();
+$login = false;
+
+if ($oSession->validateLogin()) {
+    $login = true;
+}
+?>
+
 <!doctype html>
     <html lang="en">
     <head>
@@ -6,6 +18,7 @@
         <meta name="description" content="">
         <title>To Do List App</title>
         <link rel="icon" type="image/png" href="<?= __PATH__ .'/src/img/favicon.png' ?>">
+        <link rel="stylesheet" href="https://cdn.datatables.net/2.1.4/css/dataTables.dataTables.css" />
         <link rel="stylesheet" href="<?= __PATH__.'/src/css/mystyle.css' ?>">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
         <style>
@@ -18,13 +31,20 @@
         <img src="<?= __PATH__.'/src/img/logo.png' ?>" alt="Logo" width="90px" class="my-0 mr-md-auto">
         <nav class="my-2 my-md-0 mr-md-3">
             <a class="p-2 text-dark" href="<?= __PATH__ ?>">Home</a>
+            <?php if ( $login ): ?>
+                <a class="p-2 text-dark" href="/dashboard">Dashboard</a>
+            <?php endif; ?>
             <a class="p-2 text-dark" href="#">Features</a>
             <a class="p-2 text-dark" href="#">Enterprise</a>
             <a class="p-2 text-dark" href="#">Support</a>
             <a class="p-2 text-dark" href="#">Pricing</a>
         </nav>
-        <a class="btn btn-outline-primary mr-1" href="<?= __PATH__ .'/signin' ?>">Sign in</a>
-        <a class="btn btn-outline-success ml-1" href="<?= __PATH__ .'/signup' ?>">Sign up</a>
+        <?php if ( $login ): ?>
+            <a class="btn btn-outline-danger mr-1" href="<?= __PATH__ .'/signout' ?>">Sign out</a>
+        <?php else: ?>
+            <a class="btn btn-outline-primary mr-1" href="<?= __PATH__ .'/signin' ?>">Sign in</a>
+            <a class="btn btn-outline-success ml-1" href="<?= __PATH__ .'/signup' ?>">Sign up</a>
+        <?php endif; ?>
     </div>
 
     <div class="container">
@@ -71,14 +91,12 @@
         </div>
     </div>
 </footer>
-</div>
 
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
-
+    <script src="https://cdn.datatables.net/2.1.4/js/dataTables.js"></script>
     <script src="<?= __PATH__.'/src/js/myjs.js' ?>" ></script>
 
 </body>

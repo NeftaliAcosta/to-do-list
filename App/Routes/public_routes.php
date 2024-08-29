@@ -15,6 +15,26 @@ $this->route->add('GET|POST', '/signin', function() {
     include_once __DIR__ . '/../Views/pages/signin.php';
 });
 
+$this->route->get('/dashboard', function() {
+    include_once __DIR__ . '/../Views/pages/dashboard.php';
+});
+
+$this->route->add('GET|POST', '/dashboard/task/create', function() {
+    include_once __DIR__ . '/../Views/pages/task-create.php';
+});
+
+$this->route->get('/dashboard/task/view/:any', function($uuid) {
+    include_once __DIR__ . '/../Views/pages/task-view.php';
+});
+
+$this->route->add('GET|POST', '/dashboard/task/edit/:any', function($uuid) {
+    include_once __DIR__ . '/../Views/pages/task-edit.php';
+});
+
+$this->route->get('/dashboard/task/delete/:any', function($uuid) {
+    include_once __DIR__ . '/../Views/pages/task-delete.php';
+});
+
 $this->route->error(function(Request $request, Response $response, Exception $exception) {
     echo $exception->getMessage();
 });

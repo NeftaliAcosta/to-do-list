@@ -3,7 +3,7 @@
 namespace App\Core\Container;
 
 use App\Core\Container\Exception\TableNotFoundException;
-use App\Core\coreException;
+use App\Core\CoreException;
 
 /**
  * Container
@@ -23,6 +23,7 @@ class Container{
      */
     public static array $tables = array(
         'users' => 'entity_users',
+        'tasks' => 'entity_tasks'
     );
 
     /**

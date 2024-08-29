@@ -29,13 +29,12 @@ class User
     private string $lastLoginDate;
     private bool $verified;
     private bool $status;
-
     private string $aliasTable = 'users';
 
     /**
      * @throws UserNotFoundException
      */
-    public function __construct(string $id = null) {
+    public function __construct(int $id = null) {
         if ($id != null) {
             // Instance of Sql class
             $oMySql = new MySql();
