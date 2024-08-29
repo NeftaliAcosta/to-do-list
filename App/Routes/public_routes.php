@@ -31,6 +31,10 @@ $this->route->add('GET|POST', '/dashboard/task/edit/:any', function($uuid) {
     include_once __DIR__ . '/../Views/pages/task-edit.php';
 });
 
+$this->route->get('/dashboard/task/delete/:any', function($uuid) {
+    include_once __DIR__ . '/../Views/pages/task-delete.php';
+});
+
 $this->route->error(function(Request $request, Response $response, Exception $exception) {
     echo $exception->getMessage();
 });

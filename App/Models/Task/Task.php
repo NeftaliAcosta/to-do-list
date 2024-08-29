@@ -8,6 +8,7 @@ use App\Core\CoreException;
 use App\Core\MySql\MySql;
 use App\Libs\Tools;
 use App\Models\Task\Exception\TaskCannotBeCreatedException;
+use App\Models\Task\Exception\TaskCannotBeDeletedException;
 use App\Models\Task\Exception\TaskCannotBeUpdatedException;
 use App\Models\Task\Exception\TaskNotFoundException;
 use App\Models\User\User;
@@ -291,5 +292,30 @@ class Task extends ToolsModels
         }
 
         return $task;
+    }
+
+    /**
+     * Update record in database
+     *
+     * @throws TaskCannotBeDeletedException
+     */
+    public function delete(Task $task): void
+    {
+        // Instance of Sql class
+        $oMySql = new MySql();
+
+        // $where Variable for where clause in the query
+        $where = [
+            'id = ?' => [
+                'type' => 'int',
+                'value' => $task->getId(),
+            ]
+        ];
+
+        try {
+            $oMySql->delete()->from($this->aliasTable)->where($where)->execute();
+        }catch ( Exception $e){
+            throw new TaskCannotBeDeletedException('Task cannot be deleted.');
+        }
     }
 }

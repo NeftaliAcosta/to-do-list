@@ -6,6 +6,7 @@ use App\Core\CoreException;
 use App\Core\SystemSession;
 use App\Libs\Validator;
 use App\Models\Task\Exception\TaskCannotBeCreatedException;
+use App\Models\Task\Exception\TaskCannotBeDeletedException;
 use App\Models\Task\Exception\TaskCannotBeUpdatedException;
 use App\Models\Task\Exception\TaskNotFoundException;
 
@@ -134,6 +135,31 @@ class Task
         } else {
             $response['showError'] = true;
             $response['messageError'] = "<ul>{$oValidator->getErrorsHTML()}</ul>";
+        }
+
+
+        return $response;
+    }
+
+    /**
+     * It is used to delete a task in the front end
+     *
+     * @param string $uuid
+     * @return array
+     */
+    public function taskDelete(string $uuid): array {
+        $response['showError'] = false;
+        $response['messageError'] = '';
+
+        try {
+            $oTask = new \App\Models\Task\Task();
+            $taskId = $oTask->getIdFromUuid($uuid);
+            $oTask = new \App\Models\Task\Task($taskId);
+
+            $oTask->delete($oTask);
+        } catch (TaskCannotBeDeletedException | TaskNotFoundException $e) {
+            $response['showError'] = true;
+            $response['messageError'] = $e->getMessage();
         }
 
 
