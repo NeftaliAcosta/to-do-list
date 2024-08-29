@@ -37,31 +37,31 @@ class MySql
      * Causes a select query to return more than one record
      * @var boolean
      */
-    private bool $fetch_all = false;
+    private bool $fetchAll = false;
 
     /**
      * Used in the select query, contains the selected fields
      * @var string
      */
-    private string $selected_fields = "";
+    private string $selectedFields = "";
 
     /**
      * It is used in the update query, it contains the fields to update
      * @var string
      */
-    private string $fields_to_update = "";
+    private string $fieldsToUpdate = "";
 
     /**
      * It is used in the insert query, it contains the fields to insert
      * @var string
      */
-    private string $fields_to_insert = "";
+    private string $fieldsToInsert = "";
 
     /**
      * It is used in the insert query, it contains the values to insert
      * @var string
      */
-    private string $values_to_insert = "";
+    private string $valuesToInsert = "";
 
     /**
      * Query table
@@ -73,13 +73,13 @@ class MySql
      * Query condition
      * @var string
      */
-    private string $query_condition = "";
+    private string $queryCondition = "";
 
     /**
      * Query type
      * @var string
      */
-    private string $query_type = "";
+    private string $queryType = "";
 
     /**
      * Query prepare
@@ -91,7 +91,7 @@ class MySql
      * Prepare a custom query
      * @var string
      */
-    private string $custom_query = "";
+    private string $customQuery = "";
 
     /**
      * Instance of PDO Class
@@ -103,38 +103,38 @@ class MySql
      * Sort query results
      * @var string
      */
-    private string $sort_structure = "";
+    private string $sortStructure = "";
 
     /**
      * Field to sort
      * @var string
      */
-    private string $sort_field;
+    private string $sortField;
 
     /**
      * Sort type
      * @var string
      */
-    private string $sort_type;
+    private string $sortType;
 
     /**
      * Flag that saves if you need to sort the query results
      * @var bool
      */
-    private bool $flag_sort = false;
+    private bool $flagSort = false;
 
 
     /**
      * Result limit
      * @var int
      */
-    private int $limit_results = 0;
+    private int $limitResults = 0;
 
     /**
      * Flag that saves if the results have a limit
      * @var bool
      */
-    private bool $flag_limit = false;
+    private bool $flagLimit = false;
 
 
     /**
@@ -164,8 +164,8 @@ class MySql
      */
     public function select(string $select="*"): MySql
     {
-        $this->selected_fields = $select;
-        $this->query_type = "SELECT";
+        $this->selectedFields = $select;
+        $this->queryType = "SELECT";
 
         return $this;
     }
@@ -177,9 +177,9 @@ class MySql
      */
     public function update(): MySql
     {
-        $this->query_type = 'UPDATE';
-        $this->fields_to_update = '';
-        $this->query_condition = '';
+        $this->queryType = 'UPDATE';
+        $this->fieldsToUpdate = '';
+        $this->queryCondition = '';
 
         return $this;
     }
@@ -191,7 +191,7 @@ class MySql
      */
     public function delete(): MySql
     {
-        $this->query_type = 'DELETE';
+        $this->queryType = 'DELETE';
 
         return $this;
     }
@@ -206,9 +206,9 @@ class MySql
     public function insert(array $data): MySql
     {
 
-        $this->query_type = 'INSERT';
-        $this->fields_to_insert = '(';
-        $this->values_to_insert = '(';
+        $this->queryType = 'INSERT';
+        $this->fieldsToInsert = '(';
+        $this->valuesToInsert = '(';
 
         // Query construction
         foreach ($data as $clave => $valor) {
@@ -225,12 +225,12 @@ class MySql
                     );
                 }
 
-                $this->fields_to_insert .= "{$clave},";
+                $this->fieldsToInsert .= "{$clave},";
 
                 if($valor['type']=="numeric"){
-                    $this->values_to_insert .= "{$valor['valor']},";
+                    $this->valuesToInsert .= "{$valor['valor']},";
                 }else{
-                    $this->values_to_insert .= "'{$valor['valor']}',";
+                    $this->valuesToInsert .= "'{$valor['valor']}',";
                 }
 
             } catch (CoreException $e) {
@@ -238,10 +238,10 @@ class MySql
             }
         }
 
-        $this->fields_to_insert = rtrim($this->fields_to_insert, ",");
-        $this->values_to_insert = rtrim($this->values_to_insert, ",");
-        $this->fields_to_insert .= ')';
-        $this->values_to_insert .= ')';
+        $this->fieldsToInsert = rtrim($this->fieldsToInsert, ",");
+        $this->valuesToInsert = rtrim($this->valuesToInsert, ",");
+        $this->fieldsToInsert .= ')';
+        $this->valuesToInsert .= ')';
 
         return $this;
     }
@@ -255,7 +255,7 @@ class MySql
      */
     public function updateInt(string $campo, int $value): MySQL
     {
-        $this->fields_to_update .= "`{$campo}` = {$value}, ";
+        $this->fieldsToUpdate .= "`{$campo}` = {$value}, ";
 
         return $this;
     }
@@ -269,7 +269,7 @@ class MySql
      */
     public function updateString(string $campo, string $value): MySql
     {
-        $this->fields_to_update .= "`{$campo}` = '{$value}', ";
+        $this->fieldsToUpdate .= "`{$campo}` = '{$value}', ";
         return $this;
     }
 
@@ -282,7 +282,7 @@ class MySql
      */
     public function updateFloat(string $field, float $value): MySql
     {
-        $this->update_parameters .= "`$field` = $value, ";
+        $this->fieldsToUpdate .= "`$field` = $value, ";
         return $this;
     }
 
@@ -294,8 +294,8 @@ class MySql
      */
     public function custom(string $mysql_query): MySql
     {
-        $this->query_type = "CUSTOM";
-        $this->custom_query = $mysql_query;
+        $this->queryType = "CUSTOM";
+        $this->customQuery = $mysql_query;
         return $this;
     }
 
@@ -338,19 +338,19 @@ class MySql
 
                 // Query construction
                 if($value['type']=="int"){
-                    $this->query_condition .= str_replace('?', $value['value'], $clave);
+                    $this->queryCondition .= str_replace('?', $value['value'], $clave);
                 }else{
                     if(strpos($clave, '%')>0){
-                        $this->query_condition .= str_replace("%", $value['value'], $clave);
-                        $this->query_condition = str_replace(">", "'%", $this->query_condition);
-                        $this->query_condition = str_replace("<", "%'", $this->query_condition);
+                        $this->queryCondition .= str_replace("%", $value['value'], $clave);
+                        $this->queryCondition = str_replace(">", "'%", $this->queryCondition);
+                        $this->queryCondition = str_replace("<", "%'", $this->queryCondition);
                     }else{
-                        $this->query_condition .= str_replace('?', "'".$value['value']."'", $clave);
+                        $this->queryCondition .= str_replace('?', "'".$value['value']."'", $clave);
                     }
                 }
 
                 if(isset($value['separator'])){
-                    $this->query_condition .= ' '.$value['separator']. ' ';
+                    $this->queryCondition .= ' '.$value['separator']. ' ';
                 }else{
                     break;
                 }
@@ -371,7 +371,7 @@ class MySql
     public function fetch(): MySql
     {
         $this->fetch = true;
-        $this->fetch_all = false;
+        $this->fetchAll = false;
 
         return $this;
     }
@@ -383,7 +383,7 @@ class MySql
      */
     public function fetchAll(): MySql
     {
-        $this->fetch_all = true;
+        $this->fetchAll = true;
         $this->fetch = false;
 
         return $this;
@@ -403,9 +403,9 @@ class MySql
             throw new IncorrectSortValueException('The sort value is incorrect.');
         }
 
-        $this->sort_type = $sort_type;
-        $this->sort_field = $field;
-        $this->sort_structure = $this->sort_field.' '.$this->sort_type;
+        $this->sortType = $sort_type;
+        $this->sortField = $field;
+        $this->sortStructure = $this->sortField.' '.$this->sortType;
 
         return $this;
     }
@@ -418,7 +418,7 @@ class MySql
      */
     public function limit(int $limit): object
     {
-        $this->limit_results = $limit;
+        $this->limitResults = $limit;
 
         return $this;
     }
@@ -431,7 +431,7 @@ class MySql
     private function prepare(): void
     {
         try {
-            switch ($this->query_type) {
+            switch ($this->queryType) {
                 case 'SELECT':
                     $this->prepareSelect();
                     break;
@@ -492,18 +492,18 @@ class MySql
         $this->prepare();
         $response = [];
         try {
-            if ($this->query !=='' || $this->custom_query !== '') {
+            if ($this->query !=='' || $this->customQuery !== '') {
                 $stmt = $this->oPDO->prepare($this->query);
                 $stmt->execute();
 
                 $response['resp'] = true;
 
-                if ($this->query_type=='SELECT' || $this->query_type=="CUSTOM") {
+                if ($this->queryType=='SELECT' || $this->queryType=="CUSTOM") {
 
                     if ($this->fetch) {
                         $response['data'] = $stmt->fetch();
                     } else{
-                        $response['data'] = $this->fetch_all ? $stmt->fetchAll(PDO::FETCH_CLASS) : $stmt->fetchAll();
+                        $response['data'] = $this->fetchAll ? $stmt->fetchAll(PDO::FETCH_CLASS) : $stmt->fetchAll();
                     }
 
                     if ($countTotalRows) {
@@ -514,7 +514,7 @@ class MySql
                         $response['lastInsert'] = (int) $this->oPDO->lastInsertId();
                     }
 
-                } else if($this->query_type=='UPDATE' || $this->query_type=="DELETE") {
+                } else if($this->queryType=='UPDATE' || $this->queryType=="DELETE") {
                     $response['rowCount'] = $stmt->rowCount();
                 }
 
@@ -539,25 +539,25 @@ class MySql
         try {
             if($this->table!==''){
 
-                if($this->query_condition!=='' && $this->sort_structure == false && $this->limit_results == false){
+                if($this->queryCondition!=='' && $this->sortStructure == false && $this->limitResults == false){
 
-                    $this->query = "SELECT {$this->selected_fields} FROM {$this->table} WHERE {$this->query_condition};";
+                    $this->query = "SELECT {$this->selectedFields} FROM {$this->table} WHERE {$this->queryCondition};";
 
-                }elseif(!empty($this->query_condition) && $this->sort_structure == true && $this->limit_results == false){
+                }elseif(!empty($this->queryCondition) && $this->sortStructure == true && $this->limitResults == false){
 
-                    $this->query = "SELECT {$this->selected_fields} FROM {$this->table} ORDER BY {$this->sort_structure}; ";
+                    $this->query = "SELECT {$this->selectedFields} FROM {$this->table} ORDER BY {$this->sortStructure}; ";
 
-                }elseif(!empty($this->query_condition) && $this->sort_structure == true && $this->limit_results == true){
+                }elseif(!empty($this->queryCondition) && $this->sortStructure == true && $this->limitResults == true){
 
-                    $this->query = "SELECT {$this->selected_fields} FROM {$this->table} ORDER BY {$this->sort_structure} LIMIT {$this->limit_results}; ";
+                    $this->query = "SELECT {$this->selectedFields} FROM {$this->table} ORDER BY {$this->sortStructure} LIMIT {$this->limitResults}; ";
 
                 }else{
-                    $this->query = "SELECT {$this->selected_fields} FROM {$this->table};";
+                    $this->query = "SELECT {$this->selectedFields} FROM {$this->table};";
                 }
 
             }else{
                 throw new QueryTableNotSelectedException(
-                    "The table was not specified in the from() method of the query {$this->query_type}"
+                    "The table was not specified in the from() method of the query {$this->queryType}"
                 );
             }
 
@@ -575,34 +575,34 @@ class MySql
     {
         try {
 
-            $this->fields_to_update = trim($this->fields_to_update);
-            $this->fields_to_update = rtrim($this->fields_to_update, ',');
+            $this->fieldsToUpdate = trim($this->fieldsToUpdate);
+            $this->fieldsToUpdate = rtrim($this->fieldsToUpdate, ',');
 
-            if($this->fields_to_update!==''){
+            if($this->fieldsToUpdate!==''){
 
                 if($this->table!==''){
 
-                    if($this->query_condition!==''){
+                    if($this->queryCondition!==''){
 
-                        $this->query = "UPDATE {$this->table} SET {$this->fields_to_update} WHERE {$this->query_condition};";
+                        $this->query = "UPDATE {$this->table} SET {$this->fieldsToUpdate} WHERE {$this->queryCondition};";
 
                     }else{
                         throw new IncorrectUpdateStructureException(
                             "One or more CONDITIONS were not specified in the where() method
-                            of the query {$this->query_type}"
+                            of the query {$this->queryType}"
                         );
                     }
 
                 }else{
                     throw new IncorrectUpdateStructureException(
-                        "The TABLE was not specified in the from() method of the query{$this->query_type}"
+                        "The TABLE was not specified in the from() method of the query{$this->queryType}"
                     );
                 }
 
             }else{
                 throw new IncorrectUpdateStructureException(
                     "The fields to update have not been specified in the query's updateString()
-                    method {$this->query_type}"
+                    method {$this->queryType}"
                 );
             }
 
@@ -621,20 +621,20 @@ class MySql
         try {
             if($this->table!==''){
 
-                if($this->query_condition!==''){
+                if($this->queryCondition!==''){
 
-                    $this->query = "DELETE FROM {$this->table} WHERE {$this->query_condition};";
+                    $this->query = "DELETE FROM {$this->table} WHERE {$this->queryCondition};";
 
                 }else{
                     throw new IncorrectDeleteStructureException(
                         "One or more CONDITIONS were not specified in the where() 
-                        method of the query {$this->query_type}"
+                        method of the query {$this->queryType}"
                     );
                 }
 
             }else{
                 throw new IncorrectDeleteStructureException(
-                    "The TABLE was not specified in the from() method of the query {$this->query_type}"
+                    "The TABLE was not specified in the from() method of the query {$this->queryType}"
                 );
             }
 
@@ -651,21 +651,21 @@ class MySql
     private function prepareInsert(): void
     {
         try {
-            if($this->fields_to_insert!=="" AND $this->values_to_insert!==""){
+            if($this->fieldsToInsert!=="" AND $this->valuesToInsert!==""){
                 if($this->table!==''){
 
-                    $this->query = "INSERT INTO {$this->table} {$this->fields_to_insert} VALUES {$this->values_to_insert};";
+                    $this->query = "INSERT INTO {$this->table} {$this->fieldsToInsert} VALUES {$this->valuesToInsert};";
 
                 }else{
                     throw new IncorrectInsertStructureException(
-                        "The TABLE was not specified in the from() method of the query {$this->query_type}"
+                        "The TABLE was not specified in the from() method of the query {$this->queryType}"
                     );
                 }
 
             }else{
                 throw new IncorrectInsertStructureException(
                     "Values to insert have not been specified in the insert() 
-                    method of the query {$this->query_type}"
+                    method of the query {$this->queryType}"
                 );
             }
 
@@ -683,11 +683,11 @@ class MySql
     {
         try {
 
-            if($this->custom_query !== ""){
-                $this->query = $this->custom_query;
+            if($this->customQuery !== ""){
+                $this->query = $this->customQuery;
             }else{
                 throw new IncorrectCustomStructureException(
-                    "No query specified on type: {$this->query_type}"
+                    "No query specified on type: {$this->queryType}"
                 );
             }
 
