@@ -74,7 +74,7 @@ CREATE TABLE `entity_users` (
 
 LOCK TABLES `entity_users` WRITE;
 /*!40000 ALTER TABLE `entity_users` DISABLE KEYS */;
-INSERT INTO `entity_users` VALUES (1,_binary '3e8c579e-df50-4da1-9ed6-8029ee3c9600','John Doe','demo@demo.com','$2y$12$RRNiISaNJsYpsS096lkxMeQE5Rr7yDMU7A1kkt1g1cz.w2Wmd1VWO','2024-08-29 00:42:48',NULL,1,1),(2,_binary 'e75a1a1d-a535-4d32-ac63-ed0572e53495','Alice Smith','demo2@demo.com','$2y$12$yC3rkSdgDKy/1DKPdX5.XuHNSy/tK7A.CURG9yB76FMAzHPgYAStm','2024-08-29 00:46:46',NULL,1,1);
+INSERT INTO `entity_users` VALUES (1,_binary '3e8c579e-df50-4da1-9ed6-8029ee3c9600','John Doe','demo@demo.com','$2y$12$zsZvT2EwfwPggUnzCzIdhOjj4BoP5oLoZhJ30LJLp.Lrv2trZoVQK','2024-08-29 00:42:48',NULL,1,1),(2,_binary 'e75a1a1d-a535-4d32-ac63-ed0572e53495','Alice Smith','demo2@demo.com','$2y$12$Id9DjLFtaovlj.SmursbteynPxhX4SW8U/qzYC2O2QkS.53DDBVN2','2024-08-29 00:46:46',NULL,1,1);
 /*!40000 ALTER TABLE `entity_users` ENABLE KEYS */;
 UNLOCK TABLES;
 
